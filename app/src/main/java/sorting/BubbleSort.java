@@ -1,6 +1,7 @@
 package sorting;
+import sorting.utils.ArrayUtils;
 
-public class BubbleSort extends SortingAlgorithm {
+public class BubbleSort implements SortingAlgorithm {
 
     @Override
     public void sort(int[] array) {
@@ -9,11 +10,11 @@ public class BubbleSort extends SortingAlgorithm {
         
         for (int i=0; i<n; i++) {
             // System.out.println(i);
-            // printArray(array);
+            // ArrayUtils.printArray(array);
             swapped = false;
             for (int j=0; j<n-i-1; j++) {
                 if (array[j] > array[j+1]) {
-                    swap(array, j, j+1);
+                    ArrayUtils.swap(array, j, j+1);
                     swapped = true;
                 }
             }
