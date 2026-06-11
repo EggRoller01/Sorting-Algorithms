@@ -25,7 +25,10 @@ public class Main {
         List<SortingAlgorithm> algorithmsToTest = new ArrayList<>();
         
         // Add BubbleSort (Later you can easily add QuickSort, MergeSort here)
+        algorithmsToTest.add(new QuickSort());
         algorithmsToTest.add(new BubbleSort());
+        algorithmsToTest.add(new SelectionSort());
+        
 
         // 3. Run the complete benchmark suite!
         PerformanceRunner.runBenchmark(algorithmsToTest, testSuite, resultsFile);
