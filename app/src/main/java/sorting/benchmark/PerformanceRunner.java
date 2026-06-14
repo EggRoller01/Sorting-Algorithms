@@ -2,6 +2,7 @@ package sorting.benchmark;
 
 import sorting.SortingAlgorithm;
 import sorting.utils.ArrayUtils;
+import sorting.utils.ConsoleUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,19 +30,28 @@ public class PerformanceRunner {
             String algorithmName = algorithm.getClass().getSimpleName();
             System.out.println("Running benchmark for " + algorithmName);
 
+            int totalTasks = testData.size();
+            int currentTask = 0;
+
+            // Print the initial empty progress bar (0%)
+            ConsoleUtils.printProgressBar(currentTask, totalTasks);
+
             for (int[] data : testData) {
-                long timeInMs = measureSortingTime(algorithm, data);
+                double timeInMs = measureSortingTime(algorithm, data);
                 exportResultToCSV(algorithmName, data.length, timeInMs, resultsFilePath);
-                // System.out.println("  Sorted array of size " + data.length + " in " + timeInMs + " ms");
+
+                currentTask++;
+                ConsoleUtils.printProgressBar(currentTask, totalTasks);
             }
             System.out.println("Finished benchmark for " + algorithmName + "!\n");
         }
     }
+
     /**
      * Runs a sorting algorithm on a given array, verifies the result, 
      * and returns the execution time in milliseconds.
      */
-    private static long measureSortingTime(SortingAlgorithm algorithm, int[] arrayToSort) {
+    private static double measureSortingTime(SortingAlgorithm algorithm, int[] arrayToSort) {
         // Create a copy of the array so we don't modify the original test data
         int[] copy = Arrays.copyOf(arrayToSort, arrayToSort.length);
 
@@ -56,14 +66,14 @@ public class PerformanceRunner {
         }
 
         // Return result in ms
-        return (endTime - startTime) / 1_000_000;
+        return (endTime - startTime) / 1_000_000.0;
     }
 
     /**
      * Appends a benchmark result to a CSV file.
      * Assumes the file and header are already created.
      */
-    private static void exportResultToCSV(String algorithmName, int arraySize, long timeInMs, String filePath) {
+    private static void exportResultToCSV(String algorithmName, int arraySize, double timeInMs, String filePath) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
             // Write the data row
             writer.println(algorithmName + "," + arraySize + "," + timeInMs);
